@@ -1,5 +1,5 @@
 {
-  "name": "@willsub-npm/capacitor-logger",
+  "name": "@willsub/capacitor-logger",
   "version": "1.0.0",
   "description": "Universal logging for capacitor apps",
   "main": "dist/plugin.js",
