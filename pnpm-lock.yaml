@@ -7,7 +7,7 @@ devDependencies:
   '@rollup/plugin-node-resolve': 9.0.0_rollup@2.29.0
   nodemon: 2.0.4
   prettier: 2.1.2
-  prettier-plugin-java: 0.8.2
+  prettier-plugin-java: 0.8.3
   rimraf: 3.0.2
   rollup: 2.29.0
   swiftlint: 1.0.1
@@ -1019,14 +1019,14 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
-  /prettier-plugin-java/0.8.2:
+  /prettier-plugin-java/0.8.3:
     dependencies:
       java-parser: 0.8.2
       lodash: 4.17.20
       prettier: 2.1.1
     dev: true
     resolution:
-      integrity: sha512-G11PMutlfhUjLqmrB0gW9n6hTIvlnXX+lhzgH3Uhc1QSlDQoLBky5lNSRgvdYSDPpSF3DmyYd3/7U3Ez8n0ckg==
+      integrity: sha512-LyFle106727RkY1NBGzHHnzEJKjILigSfHPPqalNi5yJ/DkM5hjOVxWa4374gm44LStMl1arNgzpCnYPL0F8cg==
   /prettier/2.1.1:
     dev: true
     engines:
@@ -1420,7 +1420,7 @@ specifiers:
   '@rollup/plugin-node-resolve': ^9.0.0
   nodemon: ^2.0.4
   prettier: ^2.1.2
-  prettier-plugin-java: ^0.8.2
+  prettier-plugin-java: ^0.8.3
   rimraf: ^3.0.2
   rollup: ^2.29.0
   swiftlint: ^1.0.1
