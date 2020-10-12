@@ -11,7 +11,7 @@
     "swiftlint": "node-swiftlint",
     "build": "npm run clean && tsc && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
-    "watch": "tsc --watch",
+    "watch": "nodemon -w ./src -w tsconfig.json -w rollup.config.js --exec 'pnpm build' -e ts",
     "prepublishOnly": "npm run build"
   },
   "author": "Aparajita Fishman",
