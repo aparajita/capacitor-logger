@@ -26,14 +26,15 @@ public class WSLogger extends Plugin {
     @Override
     public void load() {
         tag = getLogTag();
-        checkHideFlags();
         loadCustomPrefixes();
+        setHideFlag();
     }
 
     /**
-     * Determine whether we should show logs.
+     * Determine if we should hide logs. By default, use the ios.hideLogs or hideLogs capacitor setting.
+     * If there is a plugins.WSLogger.hide setting, use that. This allows us to hide Capacitor logs but keep user logs.
      */
-    private void checkHideFlags() {
+    private void setHideFlag() {
         CapConfig config = bridge.getConfig();
         hideLogs = config != null && config.getBoolean("android.hideLogs", config.getBoolean("hideLogs", false));
         Object value = getConfigValue("hide");
@@ -44,7 +45,7 @@ public class WSLogger extends Plugin {
     }
 
     /**
-     * Load custom level prefixes from "plugins.WSLogger.prefixes".
+     * Load custom level prefixes from plugins.WSLogger.prefixes.
      */
     private void loadCustomPrefixes() {
         levelPrefixes = new HashMap<>();
@@ -80,8 +81,8 @@ public class WSLogger extends Plugin {
      * Print a message to the log at the given named log level. If level not a valid LogLevel,
      * LogLevel.info is used.
      *
-     * @param message
-     * @param level
+     * @param message Raw message
+     * @param level Log level
      */
     public void print(String message, String level) {
         LogLevel logLevel;
@@ -171,14 +172,16 @@ public class WSLogger extends Plugin {
     }
 
     /**
-     * Extract the "message" option and print it at the given log level.
+     * Extract the "message" call option and print it at the given log level.
+     * If there is a "module" call option, it is used.
      *
      * @param call Plugin call options
      * @param level Log level
      */
     private void handleCall(PluginCall call, LogLevel level) {
         String message = call.getString("message", "");
-        print(message, level);
+        String module = call.getString("module", "app");
+        print(message, level, module);
         call.success();
     }
 
