@@ -5,13 +5,15 @@ declare module '@capacitor/core' {
 }
 
 export interface WSLoggerOptions {
-  msg: string
+  message: string
   context?: string
 }
 
+export type WSLoggerFunction = (options: WSLoggerOptions) => Promise<void>
+
 export interface WSLoggerPlugin {
-  log(options: WSLoggerOptions): Promise<void>;
-  info(options: WSLoggerOptions): Promise<void>;
-  warn(options: WSLoggerOptions): Promise<void>;
-  error(options: WSLoggerOptions): Promise<void>;
+  log: WSLoggerFunction;
+  info: WSLoggerFunction;
+  warn: WSLoggerFunction;
+  error: WSLoggerFunction;
 }
