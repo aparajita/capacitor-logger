@@ -56,6 +56,7 @@
       "src": "android"
     }
   },
+  "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
   "repository": {
     "type": "git",
