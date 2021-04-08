@@ -6,16 +6,18 @@
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "scripts": {
+    "clean": "rimraf ./dist",
+    "build": "npm run clean && tsc && rollup -c rollup.config.js",
+    "watch": "nodemon -w ./src -w tsconfig.json -w rollup.config.js --exec 'npm run build --silent' -e ts",
     "lint": "npm run prettier && npm run swiftlint",
     "lint.fix": "npm run prettier.fix && npm run swiftlint.fix",
     "prettier": "prettier --check --plugin=./node_modules/prettier-plugin-java \"**/*.{css,html,ts,js,java}\"",
     "prettier.fix": "prettier --write --check --plugin=./node_modules/prettier-plugin-java \"**/*.{css,html,ts,js,java}\"",
-    "swiftlint": "node-swiftlint",
-    "swiftlint.fix": "node-swiftlint autocorrect",
-    "build": "npm run clean && tsc && rollup -c rollup.config.js",
-    "clean": "rimraf ./dist",
-    "watch": "nodemon -w ./src -w tsconfig.json -w rollup.config.js --exec 'pnpm build' -e ts",
-    "prepublishOnly": "npm run build"
+    "swiftlint": "cd ios; node-swiftlint; cd ..",
+    "swiftlint.fix": "cd ios; node-swiftlint --fix; cd ..",
+    "docgen": "docgen --api WSLoggerPlugin --output-readme README.md",
+    "release": "standard-version",
+    "push": "git push --follow-tags origin main && npm publish"
   },
   "author": "Aparajita Fishman",
   "license": "MIT",
@@ -38,15 +40,25 @@
     "@capacitor/core": "^2.4.2"
   },
   "files": [
-    "dist/",
-    "ios/",
-    "android/",
-    "WillsubNpmCapacitorLogger.podspec"
+    "dist/esm/*.d.ts",
+    "dist/esm/*.js",
+    "ios/Plugin",
+    "ios/Podfile",
+    "ios/Podfile.lock",
+    "android/build.gradle",
+    "android/gradle.properties",
+    "android/settings.gradle",
+    "android/src/main",
+    "*.podspec"
   ],
   "keywords": [
     "capacitor",
     "plugin",
-    "native"
+    "native",
+    "logging",
+    "logger",
+    "ios",
+    "android"
   ],
   "capacitor": {
     "ios": {
