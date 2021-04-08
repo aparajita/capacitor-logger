@@ -1,7 +1,7 @@
 {
-  "name": "@willsub/capacitor-logger",
+  "name": "@aparajita/capacitor-logger",
   "version": "1.0.0",
-  "description": "Universal logging for capacitor apps",
+  "description": "Enhanced universal logging for Capacitor apps",
   "main": "dist/plugin.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -72,9 +72,9 @@
   "swiftlint": "@ionic/swiftlint-config",
   "repository": {
     "type": "git",
-    "url": "https://github.com/willsub/capacitor-log"
+    "url": "https://github.com/aparajita/capacitor-logger"
   },
   "bugs": {
-    "url": "https://github.com/willsub/capacitor-log/issues"
+    "url": "https://github.com/aparajita/capacitor-logger/issues"
   }
 }
