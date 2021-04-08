@@ -1,11 +1,7 @@
-package app.willsub.capacitor.logger;
+package com.aparajita.capacitor.logger;
 
 import android.util.Log;
-import com.getcapacitor.CapConfig;
-import com.getcapacitor.NativePlugin;
-import com.getcapacitor.Plugin;
-import com.getcapacitor.PluginCall;
-import com.getcapacitor.PluginMethod;
+import com.getcapacitor.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONObject;
@@ -14,9 +10,12 @@ import org.json.JSONObject;
 public class WSLogger extends Plugin {
 
     public enum LogLevel {
-        info,
+        off,
+        error,
         warn,
-        error
+        info,
+        debug,
+        trace
     }
 
     private Map<LogLevel, String> levelPrefixes;
@@ -37,7 +36,7 @@ public class WSLogger extends Plugin {
     private void setHideFlag() {
         CapConfig config = bridge.getConfig();
         hideLogs = config != null && config.getBoolean("android.hideLogs", config.getBoolean("hideLogs", false));
-        Object value = getConfigValue("hide");
+        Object value = getConfigValue("hideLogs");
 
         if (value instanceof Boolean) {
             hideLogs = (Boolean) value;
@@ -49,9 +48,11 @@ public class WSLogger extends Plugin {
      */
     private void loadCustomPrefixes() {
         levelPrefixes = new HashMap<>();
-        levelPrefixes.put(LogLevel.info, "🟢");
-        levelPrefixes.put(LogLevel.warn, "🟠");
         levelPrefixes.put(LogLevel.error, "🔴");
+        levelPrefixes.put(LogLevel.warn, "🟠");
+        levelPrefixes.put(LogLevel.info, "🟢");
+        levelPrefixes.put(LogLevel.debug, "👉");
+        levelPrefixes.put(LogLevel.trace, "🔎");
 
         JSONObject prefixes = (JSONObject) getConfigValue("prefixes");
 
@@ -127,14 +128,20 @@ public class WSLogger extends Plugin {
         String msg = String.format("%s [%s] %s", symbol, module, message);
 
         switch (level) {
-            case info:
-                Log.i(tag, msg);
+            case error:
+                Log.e(tag, msg);
                 break;
             case warn:
                 Log.w(tag, msg);
                 break;
-            case error:
-                Log.e(tag, msg);
+            case info:
+                Log.i(tag, msg);
+                break;
+            case debug:
+                Log.d(tag, msg);
+                break;
+            case trace:
+                Log.v(tag, msg);
                 break;
         }
     }
@@ -193,7 +200,7 @@ public class WSLogger extends Plugin {
      * @param call Plugin call options
      */
     @PluginMethod
-    public void handleConsole(PluginCall call) {
+    public void handleNativeConsole(PluginCall call) {
         final WSLogger logger = this;
 
         class HandleConsoleRunner implements Runnable {
@@ -204,46 +211,7 @@ public class WSLogger extends Plugin {
         }
 
         bridge.executeOnMainThread(new HandleConsoleRunner());
+        Log.i(tag, "[WSLogger] Now handling the console");
         call.success();
-    }
-
-    /**
-     * Handle calls to console.log().
-     *
-     * @param call Plugin call options
-     */
-    @PluginMethod
-    public void log(PluginCall call) {
-        handleCall(call);
-    }
-
-    /**
-     * Handle calls to console.info().
-     *
-     * @param call Plugin call options
-     */
-    @PluginMethod
-    public void info(PluginCall call) {
-        handleCall(call, LogLevel.info);
-    }
-
-    /**
-     * Handle calls to console.warn().
-     *
-     * @param call Plugin call options
-     */
-    @PluginMethod
-    public void warn(PluginCall call) {
-        handleCall(call, LogLevel.warn);
-    }
-
-    /**
-     * Handle calls to console.error().
-     *
-     * @param call Plugin call options
-     */
-    @PluginMethod
-    public void error(PluginCall call) {
-        handleCall(call, LogLevel.error);
     }
 }

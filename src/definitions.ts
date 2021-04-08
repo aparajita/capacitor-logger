@@ -4,16 +4,18 @@ declare module '@capacitor/core' {
   }
 }
 
-export interface WSLoggerOptions {
-  message: string;
-  context?: string;
+export enum LogLevel {
+  off,
+  error,
+  warn,
+  info,
+  debug,
+  trace,
 }
 
-export type WSLoggerFunction = (options: WSLoggerOptions) => Promise<void>;
-
 export interface WSLoggerPlugin {
-  log: WSLoggerFunction;
-  info: WSLoggerFunction;
-  warn: WSLoggerFunction;
-  error: WSLoggerFunction;
+  setLevel(level: LogLevel | string): void;
+  getLevel(): LogLevel;
+  getLevelName(): string;
+  handleNativeConsole(): Promise<void>;
 }

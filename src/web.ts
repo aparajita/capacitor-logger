@@ -1,69 +1,190 @@
 import { registerWebPlugin, WebPlugin } from '@capacitor/core';
-import { WSLoggerOptions, WSLoggerPlugin } from './definitions';
+import { LogLevel, WSLoggerPlugin } from './definitions';
+import { native } from '@aparajita/capacitor-native-decorator';
 
-export enum LogLevel {
-  info = 'log',
-  warn = 'warn',
-  error = 'error',
-}
+export const kLogLevelNames = [
+  'off',
+  'error',
+  'warn',
+  'info',
+  'debug',
+  'trace',
+];
 
 export class WSLoggerWeb extends WebPlugin implements WSLoggerPlugin {
-  private static readonly systemConsole = console;
+  private static readonly _console = console;
+  private static _level = LogLevel.info;
 
   constructor() {
     super({
       name: 'WSLogger',
-      platforms: ['web'],
+      platforms: ['web', 'ios', 'android'],
     });
+
+    // @ts-ignore
+    window.console = this;
+
+    if (process.env.WS_LOG_LEVEL) {
+      const level = kLogLevelNames.indexOf(process.env.WS_LOG_LEVEL);
+
+      if (level >= 0) {
+        WSLoggerWeb._level = level;
+      }
+    }
   }
 
-  handleConsole() {
+  setLevel(level: LogLevel | string): void {
+    if (typeof level === 'string') {
+      const index = kLogLevelNames.indexOf(level);
+
+      if (index >= 0) {
+        WSLoggerWeb._level = index as LogLevel;
+      }
+    } else {
+      WSLoggerWeb._level = level;
+    }
+  }
+
+  getLevel(): LogLevel {
+    return WSLoggerWeb._level;
+  }
+
+  getLevelName(): string {
+    return kLogLevelNames[WSLoggerWeb._level];
+  }
+
+  @native()
+  handleNativeConsole(): Promise<void> {
     // A no-op on the web
+    return Promise.resolve();
   }
 
-  private static print(
-    options: WSLoggerOptions,
-    level: LogLevel,
-  ): Promise<void> {
-    const context = options.context || 'app';
-    return Promise.resolve(
-      this.systemConsole[level](`[${context}] ${options.message}`),
-    );
+  get memory() {
+    return WSLoggerWeb._console.memory;
   }
 
-  static log(
-    options: WSLoggerOptions,
-    level: LogLevel = LogLevel.info,
-  ): Promise<void> {
-    return WSLoggerWeb.print(options, level);
+  assert(condition?: boolean, ...data: any[]): void {
+    if (WSLoggerWeb._level > LogLevel.off) {
+      WSLoggerWeb._console.assert(condition, ...data);
+    }
   }
 
-  log(options: WSLoggerOptions): Promise<void> {
-    return WSLoggerWeb.log(options);
+  clear(): void {
+    WSLoggerWeb._console.clear();
   }
 
-  static info(options: WSLoggerOptions): Promise<void> {
-    return WSLoggerWeb.print(options, LogLevel.info);
+  count(label?: string): void {
+    if (WSLoggerWeb._level > LogLevel.off) {
+      WSLoggerWeb._console.count(label);
+    }
   }
 
-  info(options: WSLoggerOptions): Promise<void> {
-    return WSLoggerWeb.info(options);
+  countReset(label?: string): void {
+    if (WSLoggerWeb._level > LogLevel.off) {
+      WSLoggerWeb._console.countReset(label);
+    }
   }
 
-  static warn(options: WSLoggerOptions): Promise<void> {
-    return WSLoggerWeb.print(options, LogLevel.warn);
+  debug(...data: any[]): void {
+    if (WSLoggerWeb._level >= LogLevel.debug) {
+      WSLoggerWeb._console.debug(...data);
+    }
   }
 
-  warn(options: WSLoggerOptions): Promise<void> {
-    return WSLoggerWeb.warn(options);
+  dir(item?: any, options?: any): void {
+    if (WSLoggerWeb._level >= LogLevel.info) {
+      WSLoggerWeb._console.dir(item, options);
+    }
   }
 
-  static error(options: WSLoggerOptions): Promise<void> {
-    return WSLoggerWeb.print(options, LogLevel.error);
+  dirxml(...data: any[]): void {
+    if (WSLoggerWeb._level >= LogLevel.info) {
+      WSLoggerWeb._console.dirxml(...data);
+    }
   }
 
-  error(options: WSLoggerOptions): Promise<void> {
-    return WSLoggerWeb.error(options);
+  error(...data: any[]): void {
+    if (WSLoggerWeb._level >= LogLevel.error) {
+      WSLoggerWeb._console.error(...data);
+    }
+  }
+
+  group(...data: any[]): void {
+    if (WSLoggerWeb._level > LogLevel.off) {
+      WSLoggerWeb._console.group(...data);
+    }
+  }
+
+  groupCollapsed(...data: any[]): void {
+    if (WSLoggerWeb._level > LogLevel.off) {
+      WSLoggerWeb._console.groupCollapsed(...data);
+    }
+  }
+
+  groupEnd(): void {
+    if (WSLoggerWeb._level > LogLevel.off) {
+      WSLoggerWeb._console.groupEnd();
+    }
+  }
+
+  info(...data: any[]): void {
+    if (WSLoggerWeb._level >= LogLevel.info) {
+      WSLoggerWeb._console.info(...data);
+    }
+  }
+
+  log(...data: any[]): void {
+    if (WSLoggerWeb._level >= LogLevel.info) {
+      WSLoggerWeb._console.log(...data);
+    }
+  }
+
+  profile(label?: string): void {
+    WSLoggerWeb._console.time(label);
+  }
+
+  profileEnd(label?: string): void {
+    WSLoggerWeb._console.time(label);
+  }
+
+  table(tabularData?: any, properties?: string[]): void {
+    if (WSLoggerWeb._level > LogLevel.off) {
+      WSLoggerWeb._console.table(tabularData, properties);
+    }
+  }
+
+  time(label?: string): void {
+    if (WSLoggerWeb._level > LogLevel.off) {
+      WSLoggerWeb._console.time(label);
+    }
+  }
+
+  timeEnd(label?: string): void {
+    if (WSLoggerWeb._level > LogLevel.off) {
+      WSLoggerWeb._console.timeEnd(label);
+    }
+  }
+
+  timeLog(label?: string, ...data: any[]): void {
+    if (WSLoggerWeb._level > LogLevel.off) {
+      WSLoggerWeb._console.timeLog(label, ...data);
+    }
+  }
+
+  timeStamp(label?: string): void {
+    WSLoggerWeb._console.timeStamp(label);
+  }
+
+  trace(...data: any[]): void {
+    if (WSLoggerWeb._level >= LogLevel.trace) {
+      WSLoggerWeb._console.trace(...data);
+    }
+  }
+
+  warn(...data: any[]): void {
+    if (WSLoggerWeb._level >= LogLevel.warn) {
+      WSLoggerWeb._console.warn(...data);
+    }
   }
 }
 

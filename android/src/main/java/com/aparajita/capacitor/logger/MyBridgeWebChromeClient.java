@@ -1,4 +1,4 @@
-package app.willsub.capacitor.logger;
+package com.aparajita.capacitor.logger;
 
 import android.webkit.ConsoleMessage;
 import com.getcapacitor.Bridge;
@@ -9,7 +9,7 @@ import com.getcapacitor.BridgeWebChromeClient;
  */
 public class MyBridgeWebChromeClient extends BridgeWebChromeClient {
 
-    private WSLogger logger;
+    private final WSLogger logger;
 
     public MyBridgeWebChromeClient(Bridge bridge, WSLogger logger) {
         super(bridge);
@@ -34,6 +34,9 @@ public class MyBridgeWebChromeClient extends BridgeWebChromeClient {
                     break;
                 case "warning":
                     level = "warn";
+                    break;
+                case "tip": // debug
+                    level = "debug";
                     break;
             }
 
