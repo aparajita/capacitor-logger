@@ -1,66 +1,59 @@
 {
   "name": "@aparajita/capacitor-logger",
   "version": "1.0.0",
-  "description": "Enhanced universal logging for Capacitor apps",
-  "main": "dist/plugin.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
-  "scripts": {
-    "clean": "rimraf ./dist",
-    "build": "npm run clean && tsc && rollup -c rollup.config.js",
-    "watch": "nodemon -w ./src -w tsconfig.json -w rollup.config.js --exec 'npm run build --silent' -e ts",
-    "lint": "npm run prettier && npm run swiftlint",
-    "lint.fix": "npm run prettier.fix && npm run swiftlint.fix",
-    "prettier": "prettier --check --plugin=./node_modules/prettier-plugin-java \"**/*.{css,html,ts,js,java}\"",
-    "prettier.fix": "prettier --write --check --plugin=./node_modules/prettier-plugin-java \"**/*.{css,html,ts,js,java}\"",
-    "swiftlint": "cd ios; node-swiftlint; cd ..",
-    "swiftlint.fix": "cd ios; node-swiftlint --fix; cd ..",
-    "docgen": "docgen --api WSLoggerPlugin --output-readme README.md",
-    "release": "standard-version",
-    "push": "git push --follow-tags origin main && npm publish"
-  },
+  "description": "Enhanced, universal logging for Capacitor apps and plugins",
   "author": "Aparajita Fishman",
   "license": "MIT",
-  "devDependencies": {
-    "@ionic/prettier-config": "^1.0.1",
-    "@ionic/swiftlint-config": "^1.1.2",
-    "@rollup/plugin-commonjs": "^18.0.0",
-    "@rollup/plugin-node-resolve": "^11.2.1",
-    "nodemon": "^2.0.7",
-    "prettier": "^2.2.1",
-    "prettier-plugin-java": "^1.0.2",
-    "rimraf": "^3.0.2",
-    "rollup": "^2.44.0",
-    "swiftlint": "^1.0.1",
-    "typescript": "~4.2.3"
-  },
-  "dependencies": {
-    "@aparajita/capacitor-native-decorator": "^1.1.1",
-    "@capacitor/android": "^2.4.7",
-    "@capacitor/core": "^2.4.7",
-    "@capacitor/ios": "^2.4.7",
-    "tslib": "^2.2.0"
+  "main": "dist/plugin.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "unpkg": "dist/plugin.js",
+  "engines": {
+    "node": ">=16.15.1"
   },
   "files": [
-    "dist/esm/*.d.ts",
-    "dist/esm/*.js",
-    "ios/Plugin",
-    "ios/Podfile",
-    "ios/Podfile.lock",
+    "android/src/main/",
     "android/build.gradle",
-    "android/gradle.properties",
-    "android/settings.gradle",
-    "android/src/main",
-    "*.podspec"
+    "dist/",
+    "ios/Plugin/",
+    "*.podspec",
+    "LICENSE"
   ],
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "build": "pnpm check.fix && pnpm bulider",
+    "build.dev": "pnpm check.fix && pnpm bulider.dev",
+    "bulider": "pnpm clean && tsc $SOURCE_MAP && pnpm rollup && make-ios-plugin",
+    "bulider.dev": "SOURCE_MAP=--sourceMap pnpm bulider",
+    "rollup": "rollup -c rollup.config.mjs",
+    "watcher": "nodemon -w src -w rollup.config.mjs --exec 'pnpm $BUILD --silent' -e ts,js,mjs,json,swift",
+    "watch": "BUILD=build pnpm watcher",
+    "watch.dev": "BUILD=build.dev pnpm watcher",
+    "lint": "eslint --cache . && pnpm typecheck",
+    "lint.fix": "eslint --cache --fix . && pnpm typecheck",
+    "typecheck": "tsc --noEmit",
+    "lint.swift": "pnpm swiftlint",
+    "prettier": "prettier --check \"**/*.{css,html,ts,js,json,java}\"",
+    "prettier.fix": "pnpm prettier --write",
+    "swiftlint": "swiftly ios",
+    "swiftlint.fix": "swiftly --fix ios",
+    "check": "pnpm lint && pnpm prettier && pnpm swiftlint",
+    "check.fix": "pnpm lint.fix && pnpm prettier.fix && pnpm swiftlint.fix",
+    "verify": "pnpm verify:ios && pnpm verify:android && pnpm verify:web",
+    "verify:ios": "cd ios && pod install && xcodebuild -workspace Plugin.xcworkspace -scheme Plugin && cd ..",
+    "verify:android": "cd android && ./gradlew clean build test && cd ..",
+    "verify:web": "pnpm build",
+    "push": "git push --follow-tags origin main",
+    "release.check": "check.fix && commit-and-tag-version ${VERSION:+-r $VERSION} --dry-run",
+    "release.prepare": "commit-and-tag-version ${VERSION:+-r $VERSION} && pnpm builder",
+    "release": "pnpm push && pnpm publish"
+  },
   "keywords": [
     "capacitor",
     "plugin",
     "native",
-    "logging",
-    "logger",
-    "ios",
-    "android"
+    "log",
+    "logging"
   ],
   "capacitor": {
     "ios": {
@@ -70,13 +63,49 @@
       "src": "android"
     }
   },
-  "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aparajita/capacitor-logger"
+    "url": "https://github.com/aparajita/capacitor-logger.git"
   },
   "bugs": {
     "url": "https://github.com/aparajita/capacitor-logger/issues"
+  },
+  "devDependencies": {
+    "@aparajita/eslint-config-base": "^1.1.4",
+    "@aparajita/prettier-config": "^1.0.0",
+    "@aparajita/swiftly": "^1.0.4",
+    "@capacitor/cli": "^3.6.0",
+    "@capacitor/core": "^3.6.0",
+    "@ionic/swiftlint-config": "^1.1.2",
+    "@rollup/plugin-json": "^4.1.0",
+    "@types/node": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
+    "chalk": "^5.0.1",
+    "commit-and-tag-version": "^10.0.1",
+    "eslint": "^8.20.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-import-resolver-typescript": "^3.2.7",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.4",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.0.0",
+    "nodemon": "^2.0.19",
+    "prettier": "^2.7.1",
+    "prettier-plugin-java": "^1.6.2",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.77.0",
+    "swiftlint": "^1.0.1",
+    "typescript": "~4.7.4"
+  },
+  "dependencies": {
+    "@aparajita/capacitor-native-decorator": "^2.0.6",
+    "@capacitor/android": "^3.6.0",
+    "@capacitor/ios": "^3.6.0"
+  },
+  "peerDependencies": {
+    "@capacitor/core": "^3.6.0"
   }
 }

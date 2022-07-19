@@ -1,195 +1,35 @@
-import { registerWebPlugin, WebPlugin } from '@capacitor/core';
-import { LogLevel, WSLoggerPlugin } from './definitions';
-import { native } from '@aparajita/capacitor-native-decorator';
+import { native, PluginReturnType } from '@aparajita/capacitor-native-decorator'
+import { WebPlugin } from '@capacitor/core'
+import type { CapLoggerPlugin, NativeLogData } from './definitions'
+import { kPluginName } from './definitions'
 
-export const kLogLevelNames = [
-  'off',
-  'error',
-  'warn',
-  'info',
-  'debug',
-  'trace',
-];
-
-export class WSLoggerWeb extends WebPlugin implements WSLoggerPlugin {
-  private static readonly _console = console;
-  private static _level = LogLevel.info;
+/**
+ * This class is the actual native plugin that acts as a bridge
+ * between the native and web implementations.
+ */
+export default class LoggerBridge extends WebPlugin implements CapLoggerPlugin {
+  static instance: LoggerBridge
 
   constructor() {
-    super({
-      name: 'WSLogger',
-      platforms: ['web', 'ios', 'android'],
-    });
-
-    // @ts-ignore
-    window.console = this;
-
-    if (process.env.WS_LOG_LEVEL) {
-      const level = kLogLevelNames.indexOf(process.env.WS_LOG_LEVEL);
-
-      if (level >= 0) {
-        WSLoggerWeb._level = level;
-      }
-    }
+    super()
+    LoggerBridge.instance = this
   }
 
-  setLevel(level: LogLevel | string): void {
-    if (typeof level === 'string') {
-      const index = kLogLevelNames.indexOf(level);
-
-      if (index >= 0) {
-        WSLoggerWeb._level = index as LogLevel;
-      }
-    } else {
-      WSLoggerWeb._level = level;
-    }
+  getRegisteredPluginName(): string {
+    return kPluginName
   }
 
-  getLevel(): LogLevel {
-    return WSLoggerWeb._level;
+  // Never rejects
+  @native(PluginReturnType.none)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async log(_data: NativeLogData): Promise<void> {
+    // This is a no-op on the web
   }
 
-  getLevelName(): string {
-    return kLogLevelNames[WSLoggerWeb._level];
-  }
-
-  @native()
-  handleNativeConsole(): Promise<void> {
-    // A no-op on the web
-    return Promise.resolve();
-  }
-
-  get memory() {
-    return WSLoggerWeb._console.memory;
-  }
-
-  assert(condition?: boolean, ...data: any[]): void {
-    if (WSLoggerWeb._level > LogLevel.off) {
-      WSLoggerWeb._console.assert(condition, ...data);
-    }
-  }
-
-  clear(): void {
-    WSLoggerWeb._console.clear();
-  }
-
-  count(label?: string): void {
-    if (WSLoggerWeb._level > LogLevel.off) {
-      WSLoggerWeb._console.count(label);
-    }
-  }
-
-  countReset(label?: string): void {
-    if (WSLoggerWeb._level > LogLevel.off) {
-      WSLoggerWeb._console.countReset(label);
-    }
-  }
-
-  debug(...data: any[]): void {
-    if (WSLoggerWeb._level >= LogLevel.debug) {
-      WSLoggerWeb._console.debug(...data);
-    }
-  }
-
-  dir(item?: any, options?: any): void {
-    if (WSLoggerWeb._level >= LogLevel.info) {
-      WSLoggerWeb._console.dir(item, options);
-    }
-  }
-
-  dirxml(...data: any[]): void {
-    if (WSLoggerWeb._level >= LogLevel.info) {
-      WSLoggerWeb._console.dirxml(...data);
-    }
-  }
-
-  error(...data: any[]): void {
-    if (WSLoggerWeb._level >= LogLevel.error) {
-      WSLoggerWeb._console.error(...data);
-    }
-  }
-
-  group(...data: any[]): void {
-    if (WSLoggerWeb._level > LogLevel.off) {
-      WSLoggerWeb._console.group(...data);
-    }
-  }
-
-  groupCollapsed(...data: any[]): void {
-    if (WSLoggerWeb._level > LogLevel.off) {
-      WSLoggerWeb._console.groupCollapsed(...data);
-    }
-  }
-
-  groupEnd(): void {
-    if (WSLoggerWeb._level > LogLevel.off) {
-      WSLoggerWeb._console.groupEnd();
-    }
-  }
-
-  info(...data: any[]): void {
-    if (WSLoggerWeb._level >= LogLevel.info) {
-      WSLoggerWeb._console.info(...data);
-    }
-  }
-
-  log(...data: any[]): void {
-    if (WSLoggerWeb._level >= LogLevel.info) {
-      WSLoggerWeb._console.log(...data);
-    }
-  }
-
-  profile(label?: string): void {
-    WSLoggerWeb._console.time(label);
-  }
-
-  profileEnd(label?: string): void {
-    WSLoggerWeb._console.time(label);
-  }
-
-  table(tabularData?: any, properties?: string[]): void {
-    if (WSLoggerWeb._level > LogLevel.off) {
-      WSLoggerWeb._console.table(tabularData, properties);
-    }
-  }
-
-  time(label?: string): void {
-    if (WSLoggerWeb._level > LogLevel.off) {
-      WSLoggerWeb._console.time(label);
-    }
-  }
-
-  timeEnd(label?: string): void {
-    if (WSLoggerWeb._level > LogLevel.off) {
-      WSLoggerWeb._console.timeEnd(label);
-    }
-  }
-
-  timeLog(label?: string, ...data: any[]): void {
-    if (WSLoggerWeb._level > LogLevel.off) {
-      WSLoggerWeb._console.timeLog(label, ...data);
-    }
-  }
-
-  timeStamp(label?: string): void {
-    WSLoggerWeb._console.timeStamp(label);
-  }
-
-  trace(...data: any[]): void {
-    if (WSLoggerWeb._level >= LogLevel.trace) {
-      WSLoggerWeb._console.trace(...data);
-    }
-  }
-
-  warn(...data: any[]): void {
-    if (WSLoggerWeb._level >= LogLevel.warn) {
-      WSLoggerWeb._console.warn(...data);
-    }
+  // Never rejects
+  @native(PluginReturnType.none)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async setUseSyslog(_useSyslog: { use: boolean }): Promise<void> {
+    // This is a no-op on the web
   }
 }
-
-const WSLogger = new WSLoggerWeb();
-
-export { WSLogger };
-
-registerWebPlugin(WSLogger);
