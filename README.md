@@ -1,6 +1,6 @@
 <div class="markdown-body">
 
-# capacitor-logger
+# capacitor-logger&nbsp;&nbsp;[![npm version](https://badge.fury.io/js/@aparajita%2Fcapacitor-logger.svg)](https://badge.fury.io/js/@aparajita%2Fcapacitor-logger)
 
 This [Capacitor 3](https://capacitorjs.com) plugin an almost complete implementation of the [`Console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) interface for web, iOS and Android.
 
@@ -489,8 +489,8 @@ public class Logger {
 
     // Initializer for Options
     public init(
-      level: LogLevel = LogLevel.info, 
-      labels: [String: String] = [:], 
+      level: LogLevel = LogLevel.info,
+      labels: [String: String] = [:],
       useSyslog: Bool = false
     ) {}
   }
