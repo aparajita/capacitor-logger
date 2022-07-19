@@ -4,7 +4,7 @@
 
 This [Capacitor 3](https://capacitorjs.com) plugin an almost complete implementation of the [`Console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) interface for web, iOS and Android.
 
-A [demo](https://github.com/aparajita/capacitor-logger) is available that illustrates the usage of the API.
+A [demo](https://github.com/aparajita/capacitor-logger-demo) is available that illustrates the usage of the API.
 
 [Installation](#installation) | [Configuration](#configuration) | [Usage](#usage) | [API](#api)
 
