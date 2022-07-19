@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@aparajita/capacitor-native-decorator': ^2.0.6
+  '@aparajita/capacitor-native-decorator': ^2.0.7
   '@aparajita/eslint-config-base': ^1.1.4
   '@aparajita/prettier-config': ^1.0.0
   '@aparajita/swiftly': ^1.0.4
@@ -33,7 +33,7 @@ specifiers:
   typescript: ~4.7.4
 
 dependencies:
-  '@aparajita/capacitor-native-decorator': 2.0.6
+  '@aparajita/capacitor-native-decorator': 2.0.7
   '@capacitor/android': 3.6.0_@capacitor+core@3.6.0
   '@capacitor/ios': 3.6.0_@capacitor+core@3.6.0
 
@@ -68,8 +68,8 @@ devDependencies:
 
 packages:
 
-  /@aparajita/capacitor-native-decorator/2.0.6:
-    resolution: {integrity: sha512-eCCTTWXqCvOBHl4X2qmttIlXTXyKcYcHvjXGoRMjdfVWylribDSyP6YhOg5fVNoLX5tcCmDvozK/FUxaqyQx0w==}
+  /@aparajita/capacitor-native-decorator/2.0.7:
+    resolution: {integrity: sha512-ycfQNjCCxisKYmOadYuYP9ckXQefsPnrTlY5YKABhb7aEXMF+piMIaw3Z1wawQy2CbYYGuZHTQd4wz6Z8Ejv2Q==}
     engines: {node: '>=16.15.1'}
     hasBin: true
     dependencies:
