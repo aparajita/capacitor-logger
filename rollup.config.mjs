@@ -3,7 +3,13 @@ import json from '@rollup/plugin-json'
 import { defineConfig } from 'rollup'
 
 export default defineConfig({
-  plugins: [json({ preferConst: true })],
+  plugins: [
+    json({
+      include: '**/info.json',
+      indent: '  ',
+      namedExports: false
+    })
+  ],
   input: 'dist/esm/index.js',
   output: [
     {
