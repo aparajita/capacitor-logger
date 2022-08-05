@@ -2,7 +2,7 @@
 
 # capacitor-logger&nbsp;&nbsp;[![npm version](https://badge.fury.io/js/@aparajita%2Fcapacitor-logger.svg)](https://badge.fury.io/js/@aparajita%2Fcapacitor-logger)
 
-This [Capacitor 3](https://capacitorjs.com) plugin is an almost complete implementation of the [`Console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) interface for web, iOS and Android.
+This [Capacitor 4](https://capacitorjs.com) plugin is an almost complete implementation of the [`Console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) interface for web, iOS and Android.
 
 A [demo](https://github.com/aparajita/capacitor-logger-demo) is available that illustrates the usage of the API.
 

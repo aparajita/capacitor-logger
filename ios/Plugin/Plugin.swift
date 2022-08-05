@@ -2,13 +2,9 @@ import Capacitor
 
 @objc(LoggerBridge)
 public class LoggerBridge: CAPPlugin {
-  private var _logger: Logger?
-
-  override public func load() {
-    // Set the level to debug so that all logs can go through.
-    // Filtering of logs is done by the TypeScript code.
-    _logger = Logger(withPlugin: self, options: Logger.Options(level: Logger.LogLevel.debug))
-  }
+  // Set the level to debug so that all logs can go through.
+  // Filtering of logs is done by the TypeScript code.
+  private lazy var _logger = Logger(withPlugin: self, options: Logger.Options(level: Logger.LogLevel.debug))
 
   /*
    * Handle calls to Logger.<level>() from JS.
@@ -30,14 +26,14 @@ public class LoggerBridge: CAPPlugin {
     let tag = call.getString("tag") ?? ""
     let label = call.getString("label") ?? ""
     let message = call.getString("message") ?? ""
-    _logger?.log(atLevel: logLevel, label: label, tag: tag, message: message)
+    _logger.log(atLevel: logLevel, label: label, tag: tag, message: message)
 
     call.resolve()
   }
 
   @objc func setUseSyslog(_ call: CAPPluginCall) {
     if let use = call.getBool("use") {
-      _logger?.useSyslog = use
+      _logger.useSyslog = use
     }
 
     call.resolve()

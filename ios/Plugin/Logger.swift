@@ -48,9 +48,9 @@ public class Logger {
   }
 
   public struct Options {
-    public var level: LogLevel?
-    public var labels: [String: String]?
-    public var useSyslog: Bool?
+    public var level: LogLevel
+    public var labels: [String: String]
+    public var useSyslog: Bool
 
     public init(level: LogLevel = LogLevel.info, labels: [String: String] = [:], useSyslog: Bool = false) {
       self.level = level
@@ -176,17 +176,9 @@ public class Logger {
     }
 
     if let options = options {
-      if let level = options.level {
-        self.level = level
-      }
-
-      if let labels = options.labels {
-        self.labels = labels
-      }
-
-      if let useSyslog = options.useSyslog {
-        self.useSyslog = useSyslog
-      }
+      self.level = options.level
+      self.labels = options.labels
+      self.useSyslog = options.useSyslog
     }
   }
 
