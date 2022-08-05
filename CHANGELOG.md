@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.0.0](https://github.com/aparajita/capacitor-logger/compare/v2.0.0...v3.0.0) (2022-08-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* Capacitor 4 is now required.
+
+### Features
+
+* upgrade to Capacitor 4 ([76c80c7](https://github.com/aparajita/capacitor-logger/commit/76c80c7408ded9a7a94b94e1974e6fd8dab9ca46))
+
+
+### Docs
+
+* add npm badge ([8192414](https://github.com/aparajita/capacitor-logger/commit/819241497109895e678ac501cd140076ae829529))
+* fix link ([7a15699](https://github.com/aparajita/capacitor-logger/commit/7a1569918810ad419ef7dd86766732185ee23a08))
+* typo ([14d1db5](https://github.com/aparajita/capacitor-logger/commit/14d1db50c22f7ac39366f3fcdc5a6ba3d903dbbd))
+
+
+### Maintenance
+
+* fix option order ([431c39d](https://github.com/aparajita/capacitor-logger/commit/431c39d2360c3b8124fa82ff348f633ef05889ea))
+* new build system ([770df81](https://github.com/aparajita/capacitor-logger/commit/770df8166164160e77ef52e4bcf9645c1d74f7bb))
+
 ## 2.0.0 (2022-07-19)
 
 
