@@ -1,5 +1,5 @@
 {
-  "watch": ["src", "rollup.config.mjs", "tsconfig*.json"],
+  "watch": ["src", "rollup.config.mjs", "tsconfig*.json", "package.json"],
   "ext": "js,ts,md,json",
   "ignore": [
     ".depcheckrc.yaml",
