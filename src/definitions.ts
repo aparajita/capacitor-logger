@@ -1,6 +1,4 @@
-import type { DecoratedNativePlugin } from '@aparajita/capacitor-native-decorator'
-
-export const kPluginName = 'LoggerBridge'
+import type { WebPlugin } from '@capacitor/core'
 
 export enum LogLevel {
   silent,
@@ -196,7 +194,7 @@ export interface NativeLogData {
   message: string
 }
 
-export interface CapLoggerPlugin extends DecoratedNativePlugin {
+export interface LoggerBridgePlugin extends WebPlugin {
   /**
    * This is the interface between Logger and the native side.
    */

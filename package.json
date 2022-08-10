@@ -27,7 +27,7 @@
     "lint.tsc": "tsc --noEmit",
     "lint": "pnpm -s extract-info && pnpm -s lint.eslint . && pnpm -s lint.prettier . && pnpm -s lint.tsc",
     "tsc": "tsc ${SOURCE_MAP}",
-    "builder": "pnpm -s extract-info && pnpm -s clean && pnpm -s tsc && rollup -c rollup.config.mjs && make-ios-plugin",
+    "builder": "pnpm -s extract-info && pnpm -s clean && pnpm -s tsc && rollup -c rollup.config.mjs",
     "build": "pnpm -s builder",
     "build.dev": "SOURCE_MAP=--sourceMap pnpm -s builder",
     "watch": "nodemon --exec 'pnpm -s build.dev'",
@@ -107,7 +107,6 @@
     "ultra-runner": "^3.10.5"
   },
   "dependencies": {
-    "@aparajita/capacitor-native-decorator": "^3.0.0",
     "@capacitor/android": "^4.0.1",
     "@capacitor/core": "^4.0.1",
     "@capacitor/ios": "^4.0.1",

@@ -1,7 +1,7 @@
 import { Capacitor } from '@capacitor/core'
 import type { ILogger, LogLevelMap, Options } from './definitions'
 import { LogLevel } from './definitions'
-import LoggerBridge from './web'
+import { getLoggerBridge } from './global'
 
 const isNative = Capacitor.isNativePlatform()
 
@@ -192,7 +192,7 @@ export default class Logger implements ILogger {
     const label = this._labels.get(level) ?? ''
 
     if (isNative) {
-      LoggerBridge.instance
+      getLoggerBridge()
         .log({
           level,
           tag,
@@ -358,7 +358,7 @@ export default class Logger implements ILogger {
     this._useSyslog = use
 
     if (Capacitor.getPlatform() === 'ios') {
-      LoggerBridge.instance.setUseSyslog({ use }).catch(logError)
+      getLoggerBridge().setUseSyslog({ use }).catch(logError)
     }
   }
 }
