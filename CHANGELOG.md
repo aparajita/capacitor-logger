@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+### [3.1.1](https://github.com/aparajita/capacitor-logger/compare/v3.1.0...v3.1.1) (2022-08-10)
+
+
+### Maintenance
+
+* ditch ultra-runner, use pre/post scripts ([6495171](https://github.com/aparajita/capacitor-logger/commit/64951716a843cb6db75a20e6f79a6a08efc8f3cf))
+
 ## [3.1.0](https://github.com/aparajita/capacitor-logger/compare/v3.0.0...v3.1.0) (2022-08-10)
 
 
