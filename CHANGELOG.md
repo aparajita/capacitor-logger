@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [3.1.0](https://github.com/aparajita/capacitor-logger/compare/v3.0.0...v3.1.0) (2022-08-10)
+
+
+### Features
+
+* no native-decorator, lazy load ([b70b3e9](https://github.com/aparajita/capacitor-logger/commit/b70b3e9e2d4bd477a647a9b0af5e079c9225aa2f))
+
+
+### Maintenance
+
+* update deps ([72debe7](https://github.com/aparajita/capacitor-logger/commit/72debe7a4014f3e3fffe2f09f51690683744bf8d))
+* watch package.json for changes ([2ff1909](https://github.com/aparajita/capacitor-logger/commit/2ff1909506e4c061f1a576bc4fe192109cb3853f))
+
 ## [3.0.0](https://github.com/aparajita/capacitor-logger/compare/v2.0.0...v3.0.0) (2022-08-05)
 
 
