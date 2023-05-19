@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+
 import { Capacitor } from '@capacitor/core'
 import type { ILogger, LogLevelMap, Options } from './definitions'
 import { LogLevel } from './definitions'
@@ -127,34 +132,34 @@ export default class Logger implements ILogger {
     // to special-case 'silent' in the code.
   }
 
-  error(message: string): void {
-    this.logMessage(LogLevel.error, this.tag, message)
+  error(...messageParams: any[]): void {
+    this.logMessage(LogLevel.error, this.tag, messageParams)
   }
 
-  warn(message: string): void {
-    this.logMessage(LogLevel.warn, this.tag, message)
+  warn(...messageParams: any[]): void {
+    this.logMessage(LogLevel.warn, this.tag, messageParams)
   }
 
-  info(message: string): void {
-    this.logMessage(LogLevel.info, this.tag, message)
+  info(...messageParams: any[]): void {
+    this.logMessage(LogLevel.info, this.tag, messageParams)
   }
 
-  log(message: string): void {
-    this.info(message)
+  log(...messageParams: any[]): void {
+    this.logMessage(LogLevel.info, this.tag, messageParams)
   }
 
-  debug(message: string): void {
-    this.logMessage(LogLevel.debug, this.tag, message)
+  debug(...messageParams: any[]): void {
+    this.logMessage(LogLevel.debug, this.tag, messageParams)
   }
 
-  logAtLevel(level: LogLevel | string, message: string): void {
-    this.logWithTagAtLevel(level, this.tag, message)
+  logAtLevel(level: LogLevel | string, ...messageParams: any[]): void {
+    this.logWithTagAtLevel(level, this.tag, messageParams)
   }
 
   logWithTagAtLevel(
     level: LogLevel | string,
     tag: string,
-    message: string
+    ...messageParams: any[]
   ): void {
     const logLevel =
       typeof level === 'string'
@@ -162,7 +167,7 @@ export default class Logger implements ILogger {
         : level
 
     if (this._level >= logLevel) {
-      this.logMessage(logLevel, tag, message)
+      this.logMessage(logLevel, tag, messageParams)
     }
   }
 
@@ -184,40 +189,58 @@ export default class Logger implements ILogger {
     }
   }
 
-  private logMessage(level: LogLevel, tag: string, message: string): void {
+  private logMessage(
+    level: LogLevel,
+    tag: string,
+    ...messageParams: any[]
+  ): void {
     if (this._level < level) {
       return
     }
 
     const label = this._labels.get(level) ?? ''
 
+    if (!(Array.isArray(messageParams) && messageParams.length > 0)) {
+      return
+    }
+
+    const paramContainer = messageParams[0]
+
+    if (paramContainer === null && paramContainer === undefined) {
+      return
+    }
+
+    let nativeString = ''
+
+    nativeString = paramContainer
+
     if (isNative) {
       getLoggerBridge()
         .log({
           level,
-          tag,
           label,
-          message
+          tag,
+          message: nativeString
         })
         .catch(logError)
     } else {
-      let msg: string
+      let prefix: string
 
       if (label) {
         // If the label is ASCII, put it after the tag, otherwise before.
         // eslint-disable-next-line @typescript-eslint/no-magic-numbers
         if (label.charCodeAt(0) < 128) {
-          msg = `[${tag}] ${label}: ${message}`
+          prefix = `[${tag}] ${label}:`
         } else {
-          msg = `${label} [${tag}]: ${message}`
+          prefix = `${label} [${tag}]:`
         }
       } else {
-        msg = `[${tag}]: ${message}`
+        prefix = `[${tag}]:`
       }
 
       // @ts-expect-error - We are legitimately indexing the console object
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      console[LogLevel[level]](msg)
+      console[LogLevel[level]](prefix, ...paramContainer)
     }
   }
 

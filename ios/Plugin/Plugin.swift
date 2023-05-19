@@ -24,11 +24,24 @@ public class LoggerBridge: CAPPlugin {
 
     // tag and levelLabel should never be missing, but we have to keep swift happy
     let tag = call.getString("tag") ?? ""
-    let label = call.getString("label") ?? ""
-    let message = call.getString("message") ?? ""
+    let label = call.getString("label") ?? ""      
+    let content = call.getAny("message") ?? ""
+    let message = flatten(content)
+      
     _logger.log(atLevel: logLevel, label: label, tag: tag, message: message)
 
     call.resolve()
+  }
+    
+  func flatten(_ values: Any) -> String {
+      return [values].flatMap { $0 as? [Any] ?? [$0] }.map {
+          if (JSONSerialization.isValidJSONObject($0)) {
+              if let jsonData = try? JSONSerialization.data(withJSONObject: $0, options: []) {
+                  return String(data: jsonData, encoding: .ascii) ?? ""
+              }
+          }
+          return String(describing: $0)
+      }.joined(separator: " ")
   }
 
   @objc func setUseSyslog(_ call: CAPPluginCall) {

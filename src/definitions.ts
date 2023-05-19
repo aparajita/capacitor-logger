@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import type { WebPlugin } from '@capacitor/core'
 
 export enum LogLevel {
@@ -77,32 +79,36 @@ export interface ILogger {
   /**
    * Log a message at the error level.
    */
-  error: (message: string) => void
+  error: (...messageParams: any[]) => void
 
   /**
    * Log a message at the warn level.
    */
-  warn: (message: string) => void
+  warn: (...messageParams: any[]) => void
 
   /**
    * Log a message at the info level.
    */
-  info: (message: string) => void
+  info: (...messageParams: any[]) => void
 
   /**
    * Log a message at the info level.
    */
-  log: (message: string) => void
+  log: (...messageParams: any[]) => void
 
   /**
    * Log a message at the debug level.
    */
-  debug: (message: string) => void
+  debug: (message: any[]) => void
 
   /**
    * Log a message at the given level.
    */
-  logAtLevel: (level: LogLevel | string, message: string) => void
+  logAtLevel: (
+    level: LogLevel | string,
+    message?: any,
+    ...optionalParams: any[]
+  ) => void
 
   /**
    * Log a message at the given level with the given tag.
@@ -110,7 +116,8 @@ export interface ILogger {
   logWithTagAtLevel: (
     level: LogLevel | string,
     tag: string,
-    message: string
+    message?: any,
+    ...optionalParams: any[]
   ) => void
 
   /**

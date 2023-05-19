@@ -1,10 +1,12 @@
 package com.aparajita.capacitor.logger;
 
 import com.aparajita.capacitor.logger.Logger.LogLevel;
+import com.getcapacitor.JSArray;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import java.util.ArrayList;
 
 @CapacitorPlugin(name = "LoggerBridge")
 public class LoggerBridge extends Plugin {
@@ -43,10 +45,20 @@ public class LoggerBridge extends Plugin {
       tag = "";
     }
 
-    String message = call.getString("message");
+    var content = call.getArray("message", new JSArray());
+    var message = "";
 
-    if (message == null) {
-      message = "";
+    try {
+      // convert JSArray to string list
+      var stringList = new ArrayList<String>();
+      for (Object obj : content.toList()) {
+        stringList.add(obj.toString());
+      }
+
+      // convert the list to a string separated by spaces
+      message = String.join(" ", stringList);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     logger.logWithTagAtLevel(level, label, tag, message);
