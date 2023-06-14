@@ -77,7 +77,6 @@
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
     "@ionic/swiftlint-config": "^1.1.2",
-    "@rollup/plugin-json": "^6.0.0",
     "@types/node": "^20.3.1",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
