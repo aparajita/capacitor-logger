@@ -335,11 +335,11 @@ const config: CapacitorConfig = {
         error: string,
         warn: string,
         info: string,
-        debug: string
+        debug: string,
       },
-      useSyslog: boolean // Only used on iOS
-    }
-  }
+      useSyslog: boolean, // Only used on iOS
+    },
+  },
 }
 ```
 
@@ -564,7 +564,7 @@ public class Logger {
     error,
     warn,
     info,
-    debug
+    debug,
   }
 
   // Options passed to Logger constructor
