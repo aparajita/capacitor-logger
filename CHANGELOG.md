@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.0.0](https://github.com/aparajita/capacitor-logger/compare/v3.1.1...v4.0.0) (2023-06-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* The plugin now requires Capacitor 5.
+
+### Features
+
+* upgrade to Capacitor 5 ([da05997](https://github.com/aparajita/capacitor-logger/commit/da0599787af88c6c9b553e2745371f6c48a8dea6))
+
+
+### Maintenance
+
+* remove all traces of ultra-runner ([d605d0f](https://github.com/aparajita/capacitor-logger/commit/d605d0f7de5f850967caab0b71a3305ed1c3dc8f))
+
 ### [3.1.1](https://github.com/aparajita/capacitor-logger/compare/v3.1.0...v3.1.1) (2022-08-10)
 
 
