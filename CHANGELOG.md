@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [4.0.1](https://github.com/aparajita/capacitor-logger/compare/v4.0.0...v4.0.1) (2023-06-15)
+
+
+### Maintenance
+
+* don’t need json plugin any more ([1561892](https://github.com/aparajita/capacitor-logger/commit/15618928b9c86d764563c3f2b675f08084264eec))
+* update README ([375db14](https://github.com/aparajita/capacitor-logger/commit/375db14194fa1d6f611a35b8b3dbefa94c76a0a6))
+
 ## [4.0.0](https://github.com/aparajita/capacitor-logger/compare/v3.1.1...v4.0.0) (2023-06-14)
 
 

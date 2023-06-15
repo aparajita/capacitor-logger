@@ -1,6 +1,6 @@
 {
   "name": "@aparajita/capacitor-logger",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Enhanced, universal logging for Capacitor apps and plugins",
   "author": "Aparajita Fishman",
   "license": "MIT",
