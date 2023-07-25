@@ -28,12 +28,12 @@ function logError(error: Error): void {
  * This is the class that users will instantiate to log messages.
  */
 export default class Logger implements ILogger {
-  static kDefaultLevelLabels: Record<string, string> = {
+  static kDefaultLevelLabels: LogLevelMap = {
     [LogLevel[LogLevel.silent]]: '',
     [LogLevel[LogLevel.error]]: '🔴',
     [LogLevel[LogLevel.warn]]: '🟠',
     [LogLevel[LogLevel.info]]: '🟢',
-    [LogLevel[LogLevel.debug]]: '🔎'
+    [LogLevel[LogLevel.debug]]: '🔎',
   }
 
   private _level = LogLevel.info
@@ -41,7 +41,7 @@ export default class Logger implements ILogger {
     Object.entries(Logger.kDefaultLevelLabels).map(([key, value]) => [
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.getLevelWithName(key)!,
-      value
+      value,
     ])
   )
 
@@ -218,8 +218,8 @@ export default class Logger implements ILogger {
       getLoggerBridge()
         .log({
           level,
-          label,
           tag,
+          label,
           message: nativeString
         })
         .catch(logError)

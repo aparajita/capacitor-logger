@@ -7,7 +7,7 @@ export enum LogLevel {
   error,
   warn,
   info,
-  debug
+  debug,
 }
 
 export type LogLevelName = Exclude<keyof typeof LogLevel, 'silent'>
